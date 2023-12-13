@@ -2,4 +2,3 @@
 2,Andrey,,8 888
 3,And,VAsil,85 665
 4,Anton,Sanday,85522
-5,,Rsd,82 282 8

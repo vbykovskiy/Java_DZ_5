@@ -4,16 +4,19 @@ import notebook.controller.UserController;
 import notebook.model.User;
 import notebook.util.Commands;
 import notebook.util.mapper.UserValidation;
-
 import java.util.Scanner;
 
 public class UserView {
+
+    // создание экземпляра интерфейса UserController
     private final UserController userController;
 
+    // инициализация экземпляра интерфейса UserController
     public UserView(UserController userController) {
         this.userController = userController;
     }
 
+    // метод для запуска интерфейса для пользователя
     public void run(){
         Commands com;
 
@@ -40,8 +43,11 @@ public class UserView {
                     System.out.println(userController.readAll());
                     break;
                 case UPDATE:
-                    String userId = prompt("Enter user id: ");
+                    String userId = prompt("Введите идентификатор пользователя: ");
                     userController.updateUser(userId, createUser());
+                case DELETE:
+                    String deleteId = prompt("Введите идентификатор пользователя: ");
+                    userController.deleteUser(deleteId);
             }
         }
     }

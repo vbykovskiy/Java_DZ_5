@@ -5,6 +5,7 @@ import notebook.model.User;
 import java.util.List;
 import java.util.Optional;
 
+// интерфейс для репозитория (UserRepository)
 public interface GBRepository {
     List<User> findAll();
     User create(User user);
