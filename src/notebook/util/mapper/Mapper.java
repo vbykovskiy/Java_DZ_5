@@ -1,8 +1,7 @@
 package notebook.util.mapper;
 
-import notebook.model.User;
+import notebook.entities.User;
 
-// Интерфейс маппера
 public interface Mapper {
     // Метод для преобразования объекта в строку
     String toInput(User e);

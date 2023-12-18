@@ -1,4 +1,4 @@
-package notebook.model;
+package notebook.entities;
 
 // Класс для описания структуры пользователей
 public class User {
@@ -54,6 +54,6 @@ public class User {
     // Переопределенный метод toString для вывода информации о пользователе
     @Override
     public String toString() {
-        return String.format("Идентафикатор: %s\nИмя: %s,\nФамилия: %s,\nТелефон: %s", id, firstName, lastName, phone);
+        return String.format("Id: %s, Имя: %s, Фамилия: %s, Телефон: %s", id, firstName, lastName, phone);
     }
 }

@@ -1,27 +1,30 @@
-package notebook.model.repository.impl;
+package notebook.repositories._impl;
 
+import notebook.model.repository.impl.FileOperation;
+import notebook.repositories.UserRepository;
 import notebook.util.mapper.impl.UserMapper;
-import notebook.model.User;
-import notebook.model.repository.GBRepository;
+import notebook.entities.User;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 // Класс реализации репозитория для работы с пользователями
-public class UserRepository implements GBRepository {
+public class UserRepositoryFileStorage implements UserRepository {
 
-    // экземпляр маппера для преобразования строки в объект и обратно
-    private final UserMapper mapper;
+
     // экземпляр для работы с файлом
     private final FileOperation operation;
 
+    private final UserMapper mapper;
+
     // конструктор
-    public UserRepository(FileOperation operation) {
-        // инициализация экземпляра маппера
-        this.mapper = new UserMapper();
+    public UserRepositoryFileStorage(FileOperation operation, UserMapper mapper) {
         // инициализация экземпляра класса для работы с файлом
         this.operation = operation;
+
+        // экземпляр маппера для преобразования строки в объект и обратно
+        this.mapper = mapper;
     }
 
     // Метод для получения списка (объекта) всех пользователей из файла
@@ -40,14 +43,14 @@ public class UserRepository implements GBRepository {
 
     // Метод для добавления нового пользователя в файл
     @Override
-    public User create(User user) {
+    public User save(User user) {
         // Ссылка на список строк считанных из файла
         List<User> users = findAll();
         // Поиск максимального id
         long max = 0L;
         for (User u : users) {
             long id = u.getId();
-            if (max < id){
+            if (max < id) {
                 max = id;
             }
         }
@@ -65,7 +68,17 @@ public class UserRepository implements GBRepository {
     // Метод для поиска пользователя по id
     @Override
     public Optional<User> findById(Long id) {
-        return Optional.empty();
+
+        Optional<User> result = Optional.empty();
+
+        List<User> users = findAll();
+        for (User user : users) {
+            if (user.getId().equals(id)) {
+                result =  Optional.of(user);
+                break;
+            }
+        }
+        return result;
     }
 
     // Метод для обновления пользователя по id
@@ -73,6 +86,7 @@ public class UserRepository implements GBRepository {
     public Optional<User> update(Long userId, User update) {
         // Ссылка на список строк считанных из файла
         List<User> users = findAll();
+
         // Поиск пользователя по id
         User editUser = users.stream()
                 .filter(u -> u.getId()
@@ -88,19 +102,22 @@ public class UserRepository implements GBRepository {
     // Метод для удаления пользователя по id
     @Override
     public boolean delete(Long id) {
+        boolean result = false;
+
+
         // Ссылка на список строк считанных из файла
         List<User> users = findAll();
+
         // Поиск пользователя по id
-        User editUser = users.stream()
-                .filter(u -> u.getId()
-                        .equals(id))
-                .findFirst().orElseThrow(() -> new RuntimeException("Пользователь не найден"));
-        // Удаление пользователя из списка
-        users.remove(editUser);
-        // Запись списка пользователей в файл
-        write(users);
-        // Возврат результата удаления
-        return true;
+        int size = users.size();
+        users.removeIf(u -> u.getId().equals(id));
+
+        if(users.size() != size) {
+            // Перезапись списка
+            write(users);
+            result = true;
+        }
+        return result;
     }
 
     // Метод для записи списка пользователей в файл

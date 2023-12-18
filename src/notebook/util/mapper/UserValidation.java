@@ -1,15 +1,17 @@
 package notebook.util.mapper;
 
-import notebook.model.User;
+import notebook.entities.User;
 
 public class UserValidation {
 
+    // Метод для проверки валидности пользователя
     public boolean valid(User user) {
-        user = prepair(user);
+        user = prepare(user);
         return !user.getFirstName().isEmpty() && !user.getLastName().isEmpty();
     }
 
-    private User prepair(User user) {
+    // Метод для обработки пробелов в имени и фамилии
+    private User prepare(User user) {
         user.setFirstName(user.getFirstName().replace(" ", ""));
         user.setLastName(user.getLastName().replace(" ", ""));
         return user;

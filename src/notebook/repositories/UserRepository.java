@@ -1,14 +1,13 @@
-package notebook.model.repository;
+package notebook.repositories;
 
-import notebook.model.User;
-
+import notebook.entities.User;
 import java.util.List;
 import java.util.Optional;
 
 // интерфейс для репозитория (UserRepository)
-public interface GBRepository {
+public interface UserRepository {
     List<User> findAll();
-    User create(User user);
+    User save(User user);
     Optional<User> findById(Long id);
     Optional<User> update(Long userId, User update);
     boolean delete(Long id);

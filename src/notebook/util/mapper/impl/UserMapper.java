@@ -1,7 +1,7 @@
 package notebook.util.mapper.impl;
 
 import notebook.util.mapper.Mapper;
-import notebook.model.User;
+import notebook.entities.User;
 
 // Маппер для пользователя
 public class UserMapper implements Mapper {
